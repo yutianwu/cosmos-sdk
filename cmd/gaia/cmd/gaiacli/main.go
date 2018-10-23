@@ -82,6 +82,7 @@ func main() {
 		stakecmd.GetCmdQueryUnbondingDelegation(storeStake, cdc),
 		stakecmd.GetCmdQueryUnbondingDelegations(storeStake, cdc),
 		stakecmd.GetCmdQueryValidator(storeStake, cdc),
+		stakecmd.GetCmdQueryValidatorDelegations("stake", cdc),
 		stakecmd.GetCmdQueryValidators(storeStake, cdc),
 		govcmd.GetCmdQueryVote(storeGov, cdc),
 		govcmd.GetCmdQueryVotes(storeGov, cdc),
