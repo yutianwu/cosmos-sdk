@@ -16,11 +16,14 @@ BREAKING CHANGES
 FEATURES
 
 * Gaia REST API (`gaiacli advanced rest-server`)
+    * [gov] [\#2479](https://github.com/cosmos/cosmos-sdk/issues/2479) Added query governance procedures rest endpoints
 
 * Gaia CLI  (`gaiacli`)
     * [cli] [\#2569](https://github.com/cosmos/cosmos-sdk/pull/2569) Add commands to query validator unbondings and redelegations
+    * [gov][cli] [\#2479](https://github.com/cosmos/cosmos-sdk/issues/2479) Add query governance procedures commands
 
 * Gaia
+    * [x/gov] [#2479](https://github.com/cosmos/cosmos-sdk/issues/2479)  Added querier for getting Procedures
 
 * SDK
 
