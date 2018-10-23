@@ -131,6 +131,7 @@ FEATURES
   * [gaia-lite] [\#2113](https://github.com/cosmos/cosmos-sdk/issues/2113) Rename `/accounts/{address}/send` to `/bank/accounts/{address}/transfers`, rename `/accounts/{address}` to `/auth/accounts/{address}`
   * [gaia-lite] [\#2478](https://github.com/cosmos/cosmos-sdk/issues/2478) Add query gov proposal's deposits endpoint
   * [gaia-lite] [\#2477](https://github.com/cosmos/cosmos-sdk/issues/2477) Add query validator's outgoing redelegations and unbonding delegations endpoints
+  * [gaia-lite] [\#2027] Add LCD endpoint for getting all delegations to a specific validator.
 
 * Gaia CLI  (`gaiacli`)
   * [cli] Cmds to query staking pool and params
@@ -149,6 +150,7 @@ FEATURES
   * [stake][cli] [\#1672](https://github.com/cosmos/cosmos-sdk/issues/1672) Introduced
   new commission flags for validator commands `create-validator` and `edit-validator`.
   * [stake][cli] [\#1890](https://github.com/cosmos/cosmos-sdk/issues/1890) Add `--genesis-format` flag to `gaiacli tx create-validator` to produce transactions in genesis-friendly format.
+  * [stake][cli] [\#2027] Add CLI query command for getting all delegations to a specific validator.
 
 * Gaia
   * [cli] #2170 added ability to show the node's address via `gaiad tendermint show-address`
@@ -217,6 +219,7 @@ IMPROVEMENTS
     * [types/decimal] \#2378 - Added truncate functionality to decimal
     * [client] [\#1184](https://github.com/cosmos/cosmos-sdk/issues/1184) Remove unused `client/tx/sign.go`.
     * [tools] \#2464 Lock binary dependencies to a specific version
+    * [x/stake] [\#2027] Add `Querier` for getting all delegations to a specific validator.
 
 * Tendermint
 
