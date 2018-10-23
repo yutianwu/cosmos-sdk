@@ -131,6 +131,7 @@ FEATURES
   * [gaia-lite] [\#2113](https://github.com/cosmos/cosmos-sdk/issues/2113) Rename `/accounts/{address}/send` to `/bank/accounts/{address}/transfers`, rename `/accounts/{address}` to `/auth/accounts/{address}`
   * [gaia-lite] [\#2478](https://github.com/cosmos/cosmos-sdk/issues/2478) Add query gov proposal's deposits endpoint
   * [gaia-lite] [\#2477](https://github.com/cosmos/cosmos-sdk/issues/2477) Add query validator's outgoing redelegations and unbonding delegations endpoints
+  * [gaia-lite] [\#2182] Added LCD endpoint for querying redelegations
 
 * Gaia CLI  (`gaiacli`)
   * [cli] Cmds to query staking pool and params
@@ -156,6 +157,7 @@ FEATURES
   * [cli] [\#1921] (https://github.com/cosmos/cosmos-sdk/issues/1921)
     * New configuration file `gaiad.toml` is now created to host Gaia-specific configuration.
     * New --minimum_fees/minimum_fees flag/config option to set a minimum fee.
+  * [stake] [\#2182] Added querier for querying a single redelegation
 
 * SDK
   * [querier] added custom querier functionality, so ABCI query requests can be handled by keepers
