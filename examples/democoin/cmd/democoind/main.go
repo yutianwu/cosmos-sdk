@@ -35,7 +35,7 @@ var CoolAppInit = server.AppInit{
 }
 
 // coolGenAppParams sets up the app_state and appends the cool app state
-func CoolAppGenState(cdc *codec.Codec, appGenTxs []json.RawMessage) (
+func CoolAppGenState(cdc *codec.Codec, genDoc tmtypes.GenesisDoc, appGenTxs []json.RawMessage) (
 	appState json.RawMessage, err error) {
 	appState, err = server.SimpleAppGenState(cdc, tmtypes.GenesisDoc{}, appGenTxs)
 	if err != nil {
@@ -90,7 +90,8 @@ func InitCmd(ctx *server.Context, cdc *codec.Codec, appInit server.AppInit) *cob
 				return err
 			}
 
-			appState, err := appInit.AppGenState(cdc, []json.RawMessage{genTx})
+			appState, err := appInit.AppGenState(cdc, tmtypes.GenesisDoc{},
+				[]json.RawMessage{genTx})
 			if err != nil {
 				return err
 			}

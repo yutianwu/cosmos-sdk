@@ -20,11 +20,11 @@ import (
 )
 
 type initConfig struct {
-	ChainID      string
-	GenTxsDir    string
-	Name         string
-	NodeID       string
-	ValPubKey    crypto.PubKey
+	ChainID   string
+	GenTxsDir string
+	Name      string
+	NodeID    string
+	ValPubKey crypto.PubKey
 }
 
 // nolint
@@ -32,7 +32,7 @@ func CollectGenTxsCmd(ctx *server.Context, cdc *codec.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "collect-gentxs",
 		Short: "Collect genesis txs and output a genesis.json file",
-		Args: cobra.MaximumNArgs(1),
+		Args:  cobra.MaximumNArgs(1),
 		RunE: func(_ *cobra.Command, _ []string) error {
 			config := ctx.Config
 			config.SetRoot(viper.GetString(cli.HomeFlag))
@@ -49,15 +49,16 @@ func CollectGenTxsCmd(ctx *server.Context, cdc *codec.Codec) *cobra.Command {
 
 			toPrint := printInfo{
 				Moniker: config.Moniker,
+				ChainID: genDoc.ChainID,
 				NodeID:  nodeID,
 			}
 
 			initCfg := initConfig{
-				ChainID:      genDoc.ChainID,
-				GenTxsDir:    filepath.Join(config.RootDir, "config", "gentx"),
-				Name:         name,
-				NodeID:       nodeID,
-				ValPubKey:    valPubKey,
+				ChainID:   genDoc.ChainID,
+				GenTxsDir: filepath.Join(config.RootDir, "config", "gentx"),
+				Name:      name,
+				NodeID:    nodeID,
+				ValPubKey: valPubKey,
 			}
 			appMessage, err := genTxsWithConfig(cdc, config, initCfg, genDoc)
 			if err != nil {
@@ -71,7 +72,7 @@ func CollectGenTxsCmd(ctx *server.Context, cdc *codec.Codec) *cobra.Command {
 	}
 
 	cmd.Flags().String(cli.HomeFlag, app.DefaultNodeHome, "node's home directory")
-	cmd.Flags().String(client.FlagName, "", "name of private key with which to sign the gentx")
+	//cmd.Flags().String(client.FlagName, "", "name of private key with which to sign the gentx")
 	return cmd
 }
 
@@ -84,7 +85,6 @@ func genTxsWithConfig(cdc *codec.Codec, config *cfg.Config, initCfg initConfig,
 	var persistentPeers string
 	var genTxs []json.RawMessage
 	var jsonRawTx json.RawMessage
-
 
 	appGenTxs, persistentPeers, err = app.CollectStdTxs(config.Moniker, initCfg.GenTxsDir, cdc)
 	if err != nil {

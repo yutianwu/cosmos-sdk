@@ -22,9 +22,9 @@ import (
 )
 
 const (
-	flagOverwrite    = "overwrite"
-	flagClientHome   = "home-client"
-	flagMoniker      = "moniker"
+	flagOverwrite  = "overwrite"
+	flagClientHome = "home-client"
+	flagMoniker    = "moniker"
 )
 
 type printInfo struct {
@@ -50,8 +50,8 @@ func InitCmd(ctx *server.Context, cdc *codec.Codec, appInit server.AppInit) *cob
 	cmd := &cobra.Command{
 		Use:   "init",
 		Short: "Initialize private validator, p2p, genesis, and application configuration files",
-		Long: `Initialize validators's and node's configuration files.`,
-		Args: cobra.NoArgs,
+		Long:  `Initialize validators's and node's configuration files.`,
+		Args:  cobra.NoArgs,
 		RunE: func(_ *cobra.Command, _ []string) error {
 			config := ctx.Config
 			config.SetRoot(viper.GetString(cli.HomeFlag))
@@ -72,16 +72,16 @@ func InitCmd(ctx *server.Context, cdc *codec.Codec, appInit server.AppInit) *cob
 			genFile := config.GenesisFile()
 			if appState, err = initializeEmptyGenesis(cdc, genFile, chainID,
 				viper.GetBool(flagOverwrite)); err != nil {
-					return err
+				return err
 			}
 			if err = WriteGenesisFile(genFile, chainID, nil, appState); err != nil {
 				return err
 			}
 
 			toPrint := printInfo{
-				ChainID: chainID,
-				Moniker: config.Moniker,
-				NodeID:  nodeID,
+				ChainID:    chainID,
+				Moniker:    config.Moniker,
+				NodeID:     nodeID,
 				AppMessage: appState,
 			}
 

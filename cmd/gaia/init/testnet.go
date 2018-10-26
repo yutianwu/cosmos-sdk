@@ -36,7 +36,9 @@ var (
 const nodeDirPerm = 0755
 
 // get cmd to initialize all files for tendermint testnet and application
-func TestnetFilesCmd(ctx *server.Context, cdc *codec.Codec) *cobra.Command {
+func TestnetFilesCmd(ctx *server.Context, cdc *codec.Codec,
+	appInit server.AppInit) *cobra.Command {
+
 	cmd := &cobra.Command{
 		Use:   "testnet",
 		Short: "Initialize files for a Gaiad testnet",
@@ -196,8 +198,8 @@ func testnetWithConfig(config *cfg.Config, cdc *codec.Codec) error {
 		return err
 	}
 	genDoc := types.GenesisDoc{
-		ChainID: chainID,
-		AppState: appGenStateJSON,
+		ChainID:    chainID,
+		AppState:   appGenStateJSON,
 		Validators: nil,
 	}
 
@@ -220,11 +222,11 @@ func testnetWithConfig(config *cfg.Config, cdc *codec.Codec) error {
 		nodeID, valPubKey := nodeIDs[i], valPubKeys[i]
 		// Run `init` and generate genesis.json and config.toml
 		initCfg := initConfig{
-			ChainID:      chainID,
-			GenTxsDir:    gentxsDir,
-			Name:         moniker,
-			NodeID:       nodeID,
-			ValPubKey:    valPubKey,
+			ChainID:   chainID,
+			GenTxsDir: gentxsDir,
+			Name:      moniker,
+			NodeID:    nodeID,
+			ValPubKey: valPubKey,
 		}
 		genDoc, err := loadGenesisDoc(cdc, config.GenesisFile())
 		if err != nil {

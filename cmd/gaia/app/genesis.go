@@ -132,6 +132,7 @@ func GaiaAppGenState(cdc *codec.Codec, genDoc tmtypes.GenesisDoc, appGenTxs []js
 	return genesisState, nil
 }
 
+// DefaultGenesisState generates the default state for gaia.
 func DefaultGenesisState() GenesisState {
 	return GenesisState{
 		Accounts:     nil,
@@ -143,7 +144,6 @@ func DefaultGenesisState() GenesisState {
 		GenTxs:       nil,
 	}
 }
-
 
 // GaiaValidateGenesisState ensures that the genesis state obeys the expected invariants
 // TODO: No validators are both bonded and jailed (#2088)
