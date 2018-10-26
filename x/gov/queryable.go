@@ -10,6 +10,7 @@ import (
 const (
 	QueryProposals = "proposals"
 	QueryProposal  = "proposal"
+	QueryInfo      = "info"
 	QueryDeposits  = "deposits"
 	QueryDeposit   = "deposit"
 	QueryVotes     = "votes"
@@ -24,6 +25,8 @@ func NewQuerier(keeper Keeper) sdk.Querier {
 			return queryProposals(ctx, path[1:], req, keeper)
 		case QueryProposal:
 			return queryProposal(ctx, path[1:], req, keeper)
+		case QueryInfo:
+			return queryInfo(ctx, path[1:], req, keeper)
 		case QueryDeposits:
 			return queryDeposits(ctx, path[1:], req, keeper)
 		case QueryDeposit:
@@ -63,6 +66,32 @@ func queryProposal(ctx sdk.Context, path []string, req abci.RequestQuery, keeper
 		return nil, sdk.ErrInternal(sdk.AppendMsgToErr("could not marshal result to JSON", err2.Error()))
 	}
 	return bz, nil
+}
+
+// Params for query 'custom/gov/info'
+type QueryInfoParams struct {
+	ProposalID int64
+}
+
+// nolint: unparam
+func queryInfo(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper) (res []byte, err sdk.Error) {
+	var params QueryInfoParams
+	err2 := keeper.cdc.UnmarshalJSON(req.Data, &params)
+	if err2 != nil {
+		return nil, sdk.ErrUnknownRequest(sdk.AppendMsgToErr("incorrectly formatted request data", err2.Error()))
+	}
+
+	info := keeper.GetProposalInfo(ctx, params.ProposalID)
+	if info.IsEmpty() {
+		return nil, ErrUnknownProposal(DefaultCodespace, params.ProposalID)
+	}
+
+	bz, err2 := codec.MarshalJSONIndent(keeper.cdc, info)
+	if err2 != nil {
+		return nil, sdk.ErrInternal(sdk.AppendMsgToErr("could not marshal result to JSON", err2.Error()))
+	}
+	return bz, nil
+
 }
 
 // Params for query 'custom/gov/deposit'
