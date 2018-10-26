@@ -183,8 +183,7 @@ func GaiaAppGenStateJSON(cdc *codec.Codec, genDoc tmtypes.GenesisDoc, appGenTxs 
 	if err != nil {
 		return nil, err
 	}
-	appState, err = codec.MarshalJSONIndent(cdc, genesisState)
-	return
+	return codec.MarshalJSONIndent(cdc, genesisState)
 }
 
 // CollectStdTxs processes and validates application's genesis StdTxs and returns the list of validators,

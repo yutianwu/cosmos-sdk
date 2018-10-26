@@ -109,16 +109,6 @@ func InitializeNodeValidatorFiles(config *cfg.Config) (nodeID string, valPubKey 
 	return
 }
 
-func initializeEmptyGenesis(cdc *codec.Codec, genFile string, chainID string,
-	overwrite bool) (appState json.RawMessage, err error) {
-	if !overwrite && common.FileExists(genFile) {
-		err = fmt.Errorf("genesis.json file already exists: %v", genFile)
-		return
-	}
-
-	return codec.MarshalJSONIndent(cdc, app.DefaultGenesisState())
-}
-
 // WriteGenesisFile creates and writes the genesis configuration to disk. An
 // error is returned if building or writing the configuration to file fails.
 // nolint: unparam
@@ -147,4 +137,14 @@ func ReadOrCreatePrivValidator(privValFile string) crypto.PubKey {
 		privValidator.Save()
 	}
 	return privValidator.GetPubKey()
+}
+
+func initializeEmptyGenesis(cdc *codec.Codec, genFile string, chainID string,
+	overwrite bool) (appState json.RawMessage, err error) {
+	if !overwrite && common.FileExists(genFile) {
+		err = fmt.Errorf("genesis.json file already exists: %v", genFile)
+		return
+	}
+
+	return codec.MarshalJSONIndent(cdc, app.DefaultGenesisState())
 }

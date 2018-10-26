@@ -76,14 +76,13 @@ func CollectGenTxsCmd(ctx *server.Context, cdc *codec.Codec) *cobra.Command {
 }
 
 func genTxsWithConfig(cdc *codec.Codec, config *cfg.Config, initCfg initConfig,
-	genDoc types.GenesisDoc) (appMessage json.RawMessage, err error) {
+	genDoc types.GenesisDoc) (appState json.RawMessage, err error) {
 
 	genFile := config.GenesisFile()
 	// process genesis transactions, else create default genesis.json
 	var appGenTxs []auth.StdTx
 	var persistentPeers string
 	var genTxs []json.RawMessage
-	var appState json.RawMessage
 	var jsonRawTx json.RawMessage
 
 
@@ -106,8 +105,8 @@ func genTxsWithConfig(cdc *codec.Codec, config *cfg.Config, initCfg initConfig,
 	if err != nil {
 		return
 	}
-	err = WriteGenesisFile(genFile, initCfg.ChainID, nil, appState)
 
+	err = WriteGenesisFile(genFile, initCfg.ChainID, nil, appState)
 	return
 }
 
