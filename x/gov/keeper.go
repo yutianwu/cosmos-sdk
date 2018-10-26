@@ -84,6 +84,7 @@ func (keeper Keeper) NewTextProposal(ctx sdk.Context, title string, description 
 	}
 	proposal := TextProposal{
 		Abstract: ProposalAbstract{
+			ProposalID:  proposalID,
 			Title:       title,
 			Description: description,
 		},

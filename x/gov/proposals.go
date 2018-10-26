@@ -19,6 +19,7 @@ type Proposal interface {
 
 // ProposalAbstract is a human-readable description about a proposal
 type ProposalAbstract struct {
+	ProposalID  int64  `json:"proposal-id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 }
@@ -53,34 +54,6 @@ func (tp TextProposal) Enact(ctx sdk.Context, k Keeper) error { return nil }
 
 // Implements Proposal Interface
 var _ Proposal = TextProposal{}
-
-// -------------------------------------------------------------
-// Parameter Change Proposals
-
-type ParameterChangeProposal struct {
-	Abstract ProposalAbstract `json:"abstract"`
-
-	StoreName string      `json:"store_name"`
-	Key       []byte      `json:"key"`
-	Subkey    []byte      `json:"subkey"`
-	Value     interface{} `json:"value"`
-}
-
-func (pcp ParameterChangeProposal) GetProposalAbstract() ProposalAbstract { return pcp.Abstract }
-func (pcp ParameterChangeProposal) Enact(ctx sdk.Context, k Keeper) error {
-	s, ok := k.paramsKeeper.GetSubspace(pcp.StoreName)
-	if !ok {
-		return errors.New("Non-existing subspace")
-	}
-	if len(pcp.Subkey) == 0 {
-		s.Set(ctx, pcp.Key, pcp.Value)
-	} else {
-		s.SetWithSubkey(ctx, pcp.Key, pcp.Subkey, pcp.Value)
-	}
-	return nil
-}
-
-var _ Proposal = ParameterChangeProposal{}
 
 //-----------------------------------------------------------
 // InfoQueue

@@ -344,7 +344,8 @@ func GetCmdQueryProposals(queryRoute string, cdc *codec.Codec) *cobra.Command {
 			}
 
 			for _, proposal := range matchingProposals {
-				fmt.Printf("  %d - %s\n", proposal.GetProposalID(), proposal.GetTitle())
+				abstract := proposal.GetProposalAbstract()
+				fmt.Printf("  %d - %s\n", abstract.ProposalID, abstract.Title)
 			}
 
 			return nil

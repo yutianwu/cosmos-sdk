@@ -12,7 +12,6 @@ func RegisterCodec(cdc *codec.Codec) {
 
 	cdc.RegisterInterface((*Proposal)(nil), nil)
 	cdc.RegisterConcrete(TextProposal{}, "gov/TextProposal", nil)
-	cdc.RegisterConcrete(ParameterChangeProposal{}, "gov/ParameterChangeProposal", nil)
 
 	cdc.RegisterConcrete(ProposalAbstract{}, "gov/ProposalAbstract", nil)
 	cdc.RegisterConcrete(ProposalInfo{}, "gov/ProposalInfo", nil)
