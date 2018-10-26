@@ -48,8 +48,8 @@ Then, deposits will automatically be refunded to their respective depositer.
 
 In the initial version of the governance module, there are two types of 
 proposal:
-* `PlainTextProposal` All the proposals that do not involve a modification of 
-  the source code go under this type. For example, an opinion poll would use a 
+* `PlainTextProposal` All the proposals that do not change the application's
+  behaviour go under this type. For example, an opinion poll would use a 
   proposal of type `PlainTextProposal`.
 * `SoftwareUpgradeProposal`. If accepted, validators are expected to update 
   their software in accordance with the proposal. They must do so by following 
@@ -57,6 +57,7 @@ proposal:
   section below. Software upgrade roadmap may be discussed and agreed on via 
   `PlainTextProposals`, but actual software upgrades must be performed via 
   `SoftwareUpgradeProposals`.
+* `ParameterChangeProposal` Governance module will automatically 
 
 
 ## Vote
