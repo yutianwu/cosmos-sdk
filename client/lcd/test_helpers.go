@@ -244,7 +244,7 @@ func InitializeTestLCD(
 		valOperAddrs = append(valOperAddrs, sdk.ValAddress(operAddr))
 	}
 
-	genesisState, err := gapp.GaiaAppGenState(cdc, genTxs)
+	genesisState, err := gapp.GaiaAppGenState(cdc, tmtypes.GenesisDoc{}, genTxs)
 	require.NoError(t, err)
 
 	// add some tokens to init accounts
