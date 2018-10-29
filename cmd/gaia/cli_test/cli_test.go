@@ -209,8 +209,7 @@ func TestGaiaCLIGasAuto(t *testing.T) {
 
 func TestGaiaCLICreateValidator(t *testing.T) {
 	chainID, servAddr, port := initializeFixtures(t)
-	flagsNoNode := fmt.Sprintf("--home=%s --chain-id=%v", gaiacliHome, chainID)
-	flags := fmt.Sprintf("%s --node=%v", flagsNoNode, servAddr)
+	flags := fmt.Sprintf("--home=%s --chain-id=%v --node=%s", gaiacliHome, chainID, servAddr)
 
 	// start gaiad server
 	proc := tests.GoExecuteTWithStdout(t, fmt.Sprintf("gaiad start --home=%s --rpc.laddr=%v", gaiadHome, servAddr))
@@ -290,7 +289,7 @@ func TestGaiaCLICreateValidator(t *testing.T) {
 
 	validatorUbds := executeGetValidatorUnbondingDelegations(t,
 		fmt.Sprintf("gaiacli query unbonding-delegations-from %s --output=json %v",
-			sdk.ValAddress(barAddr), flagsNoNode))
+			sdk.ValAddress(barAddr), flags))
 	require.Len(t, validatorUbds, 1)
 	require.Equal(t, "1", validatorUbds[0].Balance.Amount.String())
 
