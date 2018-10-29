@@ -209,7 +209,8 @@ func TestGaiaCLIGasAuto(t *testing.T) {
 
 func TestGaiaCLICreateValidator(t *testing.T) {
 	chainID, servAddr, port := initializeFixtures(t)
-	flags := fmt.Sprintf("--home=%s --node=%v --chain-id=%v", gaiacliHome, servAddr, chainID)
+	flagsNoNode := fmt.Sprintf("--home=%s --chain-id=%v", gaiacliHome, chainID)
+	flags := fmt.Sprintf("%s --node=%v", flagsNoNode, servAddr)
 
 	// start gaiad server
 	proc := tests.GoExecuteTWithStdout(t, fmt.Sprintf("gaiad start --home=%s --rpc.laddr=%v", gaiadHome, servAddr))
@@ -289,7 +290,7 @@ func TestGaiaCLICreateValidator(t *testing.T) {
 
 	validatorUbds := executeGetValidatorUnbondingDelegations(t,
 		fmt.Sprintf("gaiacli query unbonding-delegations-from %s --output=json %v",
-			sdk.ValAddress(barAddr), flags))
+			sdk.ValAddress(barAddr), flagsNoNode))
 	require.Len(t, validatorUbds, 1)
 	require.Equal(t, "1", validatorUbds[0].Balance.Amount.String())
 
@@ -603,7 +604,7 @@ func initializeFixtures(t *testing.T) (chainID, servAddr, port string) {
 	var appState app.GenesisState
 	err := codec.Cdc.UnmarshalJSON(genDoc.AppState, &appState)
 	require.NoError(t, err)
-	appState.Accounts = []app.GenesisAccount{newGenesisAccount(fooAddr)}
+	appState.Accounts = []app.GenesisAccount{app.NewDefaultGenesisAccount(fooAddr)}
 	appStateJSON, err := codec.Cdc.MarshalJSON(appState)
 	require.NoError(t, err)
 	genDoc.AppState = appStateJSON
@@ -642,15 +643,6 @@ func readGenesisFile(t *testing.T, genFile string) types.GenesisDoc {
 	err = codec.Cdc.UnmarshalJSON(fileContents, &genDoc)
 	require.NoError(t, err)
 	return genDoc
-}
-
-func newGenesisAccount(addr sdk.AccAddress) app.GenesisAccount {
-	acc := auth.NewBaseAccountWithAddress(addr)
-	acc.Coins = sdk.Coins{
-		sdk.NewInt64Coin("steak", 150),
-		sdk.NewInt64Coin("fooToken", 1000),
-	}
-	return app.NewGenesisAccount(&acc)
 }
 
 //___________________________________________________________________________________
