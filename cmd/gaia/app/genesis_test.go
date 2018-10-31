@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"github.com/tendermint/tendermint/crypto/secp256k1"
 	tmtypes "github.com/tendermint/tendermint/types"
 	"testing"
 
@@ -119,4 +120,11 @@ func TestGaiaGenesisValidation(t *testing.T) {
 	genesisState.StakeData.Validators = append(genesisState.StakeData.Validators, val2)
 	err = GaiaValidateGenesisState(genesisState)
 	require.NotNil(t, err)
+}
+
+func TestNewDefaultGenesisAccount(t *testing.T) {
+	addr := secp256k1.GenPrivKeySecp256k1([]byte("")).PubKey().Address()
+	acc := NewDefaultGenesisAccount(sdk.AccAddress(addr))
+	require.Equal(t, sdk.NewInt(1000), acc.Coins.AmountOf("fooToken"))
+	require.Equal(t, sdk.NewInt(150), acc.Coins.AmountOf("steak"))
 }
