@@ -1,6 +1,8 @@
 package app
 
 import (
+	"encoding/json"
+	tmtypes "github.com/tendermint/tendermint/types"
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -66,6 +68,20 @@ func TestGaiaAppGenTx(t *testing.T) {
 func TestGaiaAppGenState(t *testing.T) {
 	cdc := MakeCodec()
 	_ = cdc
+	var genDoc tmtypes.GenesisDoc
+	//var genTxs []json.RawMessage
+
+	// test unmarshalling error
+	_, err := GaiaAppGenState(cdc, genDoc, []json.RawMessage{})
+	require.Error(t, err)
+
+	appState := makeGenesisState(t, []auth.StdTx{})
+	genDoc.AppState, err = json.Marshal(appState)
+	require.NoError(t, err)
+
+	// test validation error
+	_, err = GaiaAppGenState(cdc, genDoc, []json.RawMessage{})
+	require.Error(t, err)
 
 	// TODO test must provide at least genesis transaction
 	// TODO test with both one and two genesis transactions:
